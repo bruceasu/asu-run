@@ -1,39 +1,34 @@
-package me.asu.run.ui;
-
-import static me.asu.run.ui.ActionKey.getByKey;
+package me.asu.run;
 
 import com.melloware.jintellitype.HotkeyListener;
 import com.melloware.jintellitype.JIntellitype;
-import java.awt.EventQueue;
-import me.asu.run.SukProcess;
-import me.asu.run.dao.FileIndexDao;
-import me.asu.run.model.FileInfo;
-import me.asu.run.model.Words;
+import me.asu.run.ui.WordListPanel;
+
+import java.awt.*;
+
+import static me.asu.run.ActionKey.getByKey;
 
 public class SearchAndRunApplication implements Runnable {
 
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception {
         if (args.length > 0) {
             String cmd = args[0];
-           switch(cmd) {
-               case "index":
-                   String[] newArgs = new String[args.length - 1];
-                   System.arraycopy(args, 1, newArgs, 0, newArgs.length);
-                   MakeIndex.main(newArgs);
+            switch (cmd) {
+                case "index":
+                    String[] newArgs = new String[args.length - 1];
+                    System.arraycopy(args, 1, newArgs, 0, newArgs.length);
+                    MakeIndex.main(newArgs);
                     break;
-               case "clean":
-                   FileIndexDao dao = new FileIndexDao();
-                   dao.cleanNotExists();
-                   dao.removeDupIndex();
-                   System.out.println("Cleaned.");
-                   break;
-           }
+                case "clean":
+                    CleanIndex.cleanup();
+                    break;
+            }
             System.exit(0);
         }
 
         JIntellitype.getInstance()
-                    .registerHotKey(ActionKey.GLOBAL_SEARCH.getKey(), JIntellitype.MOD_ALT, 113); // F2
+                .registerHotKey(ActionKey.GLOBAL_SEARCH.getKey(), JIntellitype.MOD_ALT, 113); // F2
 
         EventQueue.invokeLater(() -> {
             SearchAndRunApplication searchAndRunApplication = new SearchAndRunApplication();
@@ -41,7 +36,6 @@ public class SearchAndRunApplication implements Runnable {
         });
         Runtime.getRuntime().addShutdownHook(new Thread(() -> {
             JIntellitype.getInstance().cleanUp();
-            System.out.println("call cleanup");
         }));
 
 
@@ -58,21 +52,17 @@ public class SearchAndRunApplication implements Runnable {
 //                System.out.println("o = " + o);
 //                System.out.println("arg = " + arg);
                 FileInfo fi = (FileInfo) arg;
-                if (fi == null) { return; }
-                if (fi.getName().toLowerCase().endsWith("bat")
-                        || fi.getName().toLowerCase().endsWith("cmd")) {
-                    String[] cmds = new String[]{"cmd", "/c", "start",
-                            "\""+fi.getPath()+"\""};
+                if (fi == null) {return;}
+                final String name = fi.getName().toLowerCase();
+                if (name.endsWith(".bat") || name.endsWith(".cmd") || name.endsWith(".lnk")) {
+                    String[] cmds = new String[]{"cmd", "/c", "start", "\"" + fi.getPath() + "\""};
                     new Thread(new SukProcess(cmds)).start();
                 } else {
-                    String[] cmds = new String[]{"cmd", "/c",
-                             "\"" + fi.getPath() + "\""};
+                    String[] cmds = new String[]{"cmd", "/c", "\"" + fi.getPath() + "\""};
                     new Thread(new SukProcess(cmds)).start();
                 }
             });
 
-            Words words = new Words(null);
-            wordListPanel.setWords(words);
 
         } catch (Exception e) {
             e.printStackTrace();

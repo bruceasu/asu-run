@@ -1,11 +1,11 @@
 <component name="ProjectRunConfigurationManager">
   <configuration default="false" name="SearchAndRunApplication index" type="Application" factoryName="Application">
-    <option name="MAIN_CLASS_NAME" value="me.asu.run.ui.SearchAndRunApplication" />
+    <option name="MAIN_CLASS_NAME" value="me.asu.run.SearchAndRunApplication" />
     <module name="asu-run" />
     <option name="PROGRAM_PARAMETERS" value="index -i d:\temp\" />
     <extension name="coverage">
       <pattern>
-        <option name="PATTERN" value="me.asu.run.model.*" />
+        <option name="PATTERN" value="me.asu.run.*" />
         <option name="ENABLED" value="true" />
       </pattern>
     </extension>

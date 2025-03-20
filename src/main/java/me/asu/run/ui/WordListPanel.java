@@ -12,30 +12,28 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.file.Paths;
 import java.util.List;
 import java.util.Observable;
 import java.util.concurrent.CompletableFuture;
 import javax.swing.*;
-import me.asu.run.HandlerPath;
-import me.asu.run.OsUtils;
-import me.asu.run.index.IndexManager;
-import me.asu.run.model.Condition;
-import me.asu.run.model.FileInfo;
-import me.asu.run.model.Words;
+
+import me.asu.run.*;
 
 public class WordListPanel extends Observable {
 
-    private JList      wordListPanel;
-    private JPanel     mainPanel;
-    private JTextField kw;
-    JFrame frame;
+    JList      wordListPanel;
+    JPanel     mainPanel;
+    JTextField kw;
+    JFrame     frame;
 
-    Words        words;
-    IndexManager manager = IndexManager.getInstance();
+    Words        words   = new Words(null);
+    SearchEngine manager = new IndexSearcher(
+            Paths.get(System.getProperty("user.home"),
+                    ".local", "share", ".asu-run.idx").toString());
 
     public WordListPanel() {
         addPaths();
-        manager.monitor();
         GUITools.initLookAndFeel();
         frame = new JFrame("Word List");
         frame.setAutoRequestFocus(true);
@@ -59,7 +57,7 @@ public class WordListPanel extends Observable {
         kw.addKeyListener(new KeyAdapter() {
             @Override
             public void keyReleased(KeyEvent e) {
-                int keyCode = e.getKeyCode();
+                int keyCode   = e.getKeyCode();
                 int modifiers = e.getModifiers();
                 if (modifiers == KeyEvent.CTRL_MASK) {
 //                    System.out.println(keyCode);
@@ -165,7 +163,7 @@ public class WordListPanel extends Observable {
     }
 
     public void show() {
-        if (trayIcon != null && tray != null) { tray.remove(trayIcon); }
+        if (trayIcon != null && tray != null) {tray.remove(trayIcon);}
         frame.setVisible(true);
     }
 
@@ -184,9 +182,9 @@ public class WordListPanel extends Observable {
         //窗口最小化到任务栏托盘
         ImageIcon trayImg = getImageIcon();
         //增加托盘右击菜单
-        PopupMenu pop = new PopupMenu();
-        MenuItem show = new MenuItem("Restore");
-        MenuItem exit = new MenuItem("Quit");
+        PopupMenu pop  = new PopupMenu();
+        MenuItem  show = new MenuItem("Restore");
+        MenuItem  exit = new MenuItem("Quit");
         show.addActionListener(e -> {
             tray.remove(trayIcon);
             show();
@@ -222,9 +220,9 @@ public class WordListPanel extends Observable {
             return new ImageIcon();
         }
 
-        ByteArrayOutputStream s = new ByteArrayOutputStream();
-        byte[] buff = new byte[8196];
-        int i = 0;
+        ByteArrayOutputStream s    = new ByteArrayOutputStream();
+        byte[]                buff = new byte[8196];
+        int                   i    = 0;
         while (true) {
             try {
                 if (!((i = resourceAsStream.read(buff)) > 0)) {
@@ -258,7 +256,7 @@ public class WordListPanel extends Observable {
     public void search(String kw) {
 
         //System.out.println("kw: " + kw);
-        if (kw == null || kw.trim().isEmpty()) { return; }
+        if (kw == null || kw.trim().isEmpty()) {return;}
         if (searchFuture != null && !searchFuture.isDone()) {
             searchFuture.cancel(true);
         }
@@ -346,6 +344,6 @@ public class WordListPanel extends Observable {
     /**
      * @noinspection ALL
      */
-    public JComponent $$$getRootComponent$$$() { return mainPanel; }
+    public JComponent $$$getRootComponent$$$() {return mainPanel;}
 
 }

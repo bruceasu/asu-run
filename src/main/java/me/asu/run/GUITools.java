@@ -22,7 +22,7 @@
  *
  */
 
-package me.asu.run.ui;
+package me.asu.run;
 
 import java.awt.*;
 import java.awt.datatransfer.*;

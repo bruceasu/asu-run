@@ -1,4 +1,4 @@
-package me.asu.run.ui;
+package me.asu.run;
 
 public enum ActionKey {
 

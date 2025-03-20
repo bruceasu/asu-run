@@ -1,8 +1,5 @@
 package me.asu.run;
 
-
-
-
 import lombok.Getter;
 import lombok.ToString;
 

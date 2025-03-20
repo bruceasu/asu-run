@@ -1,10 +1,10 @@
-package me.asu.run.model;
+package me.asu.run.ui;
 
 import java.util.Collections;
 import java.util.List;
 import javax.swing.DefaultListModel;
 import lombok.Data;
-import me.asu.run.model.FileInfo;
+import me.asu.run.FileInfo;
 
 @Data
 public class Words {
@@ -20,9 +20,6 @@ public class Words {
         this.selectedIndex = selectedIndex + (page - 1) * pageSize;
     }
 
-    public Words() {
-
-    }
     public Words(List<FileInfo> data) {
         setData(data);
     }

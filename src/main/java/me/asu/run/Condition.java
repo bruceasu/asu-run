@@ -1,4 +1,4 @@
-package me.asu.run.model;
+package me.asu.run;
 
 import lombok.Data;
 

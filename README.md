@@ -10,7 +10,7 @@ so I make my one.
 
 # Usage
 ## create index first
-`java -cp asu-run-<version>.jar me.asu.run.ui.MakeIndex [-i include-path] [-e exclude-path]`
+`java -cp asu-run-<version>.jar me.asu.run.MakeIndex [-i include-path] [-e exclude-path]`
 
 ## startup
 `javaw -jar asu-run-<version>.jar`
