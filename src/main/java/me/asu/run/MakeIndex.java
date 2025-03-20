@@ -37,39 +37,24 @@ public class MakeIndex {
         instance.addExcludePath("*.svn");
         instance.addExcludePath("*.settings");
         instance.addExcludePath(".*\\.idea");
-        instance.addExcludePath(".*/.idea");
         instance.addExcludePath("*\\node_modules");
-        instance.addExcludePath("*/node_modules");
         instance.addExcludePath("*\\.m2");
-        instance.addExcludePath("*/.m2");
         instance.addExcludePath(".*RECYCLE.BIN.*");
         instance.addExcludePath("*\\.Trash-*");
-        instance.addExcludePath("*/.Trash-*");
         instance.addExcludePath("*:\\Users\\*\\AppData\\Roaming\\Microsoft\\Windows\\Recent");
 
-        if (instance.getIncludePath().isEmpty()) {
-            if (OsUtils.WINDOWS) {
-//                File[] roots = File.listRoots();
+ //                File[] roots = File.listRoots();
 //                for (int i = 0; i < roots.length; i++) {
 //                    // 磁盘路径
 //                    instance.addIncludePath(roots[i].getPath());
 //                }
-                // 搞点常规的地址就好了。
-                instance.addIncludePath("C:\\Program Files\\");
-                instance.addIncludePath("C:\\Program Files (x86)\\");
-                instance.addIncludePath("C:\\Windows\\");
-                instance.addIncludePath("C:\\green\\");
-                String userHome = System.getProperty("user.home");
-                instance.addIncludePath(userHome);
-            } else {
-                instance.addIncludePath("/bin/");
-                instance.addIncludePath("/usr/bin");
-                instance.addIncludePath("/usr/local/bin");
-                instance.addIncludePath("/opt");
-                String userHome = System.getProperty("user.home");
-                instance.addIncludePath(userHome);
-            }
-        }
+        // 搞点常规的地址就好了。
+        instance.addIncludePath("C:\\Program Files\\");
+        instance.addIncludePath("C:\\Program Files (x86)\\");
+        instance.addIncludePath("C:\\Windows\\");
+        instance.addIncludePath("C:\\green\\");
+        String userHome = System.getProperty("user.home");
+        instance.addIncludePath(userHome);
 
 
     }
