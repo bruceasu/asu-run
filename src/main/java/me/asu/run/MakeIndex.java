@@ -4,14 +4,9 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 public class MakeIndex {
-
-
-
     public static void main(String[] args) throws Exception {
         addPaths(args);
-
         buildIndex();
-
     }
 
     private static void addPaths(String[] args) {
@@ -37,26 +32,27 @@ public class MakeIndex {
         instance.addExcludePath("*.svn");
         instance.addExcludePath("*.settings");
         instance.addExcludePath(".*\\.idea");
-        instance.addExcludePath("*\\node_modules");
+        instance.addExcludePath("*\\node_modules\\*");
         instance.addExcludePath("*\\.m2");
         instance.addExcludePath(".*RECYCLE.BIN.*");
         instance.addExcludePath("*\\.Trash-*");
         instance.addExcludePath("*:\\Users\\*\\AppData\\Roaming\\Microsoft\\Windows\\Recent");
 
- //                File[] roots = File.listRoots();
+        if (instance.getIncludePath().isEmpty()) {
+ //               File[] roots = File.listRoots();
 //                for (int i = 0; i < roots.length; i++) {
 //                    // 磁盘路径
 //                    instance.addIncludePath(roots[i].getPath());
 //                }
-        // 搞点常规的地址就好了。
-        instance.addIncludePath("C:\\Program Files\\");
-        instance.addIncludePath("C:\\Program Files (x86)\\");
-        instance.addIncludePath("C:\\Windows\\");
-        instance.addIncludePath("C:\\green\\");
-        String userHome = System.getProperty("user.home");
-        instance.addIncludePath(userHome);
+            // 搞点常规的地址就好了。
+            instance.addIncludePath("C:\\green\\");
+            instance.addIncludePath("C:\\Program Files\\");
+            instance.addIncludePath("C:\\Program Files (x86)\\");
+//        instance.addIncludePath("C:\\Windows\\");
+//        String userHome = System.getProperty("user.home");
+//        instance.addIncludePath(userHome);
 
-
+        }
     }
 
     /**
